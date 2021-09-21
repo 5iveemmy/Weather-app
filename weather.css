@@ -1,4 +1,5 @@
 body {
+  flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,6 +9,11 @@ body {
   background: #222;
   background-image: url("https://source.unsplash.com/1600x900/?landscape");
   font-size: 120%;
+}
+h1 {
+  text-transform: uppercase;
+  font-family: monospace;
+  font-weight: lighter;
 }
 
 .weather-wrap {
