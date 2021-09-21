@@ -1,3 +1,11 @@
+let forSearch = document.querySelector(".search-bar");
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
+
 let weather = {
   apiKey: "7bf02659b11cb256ab8cda80d57346bd",
   fetchWeather: function (city) {
@@ -7,8 +15,14 @@ let weather = {
         " &appid=" +
         this.apiKey
     )
+      .then(handleErrors)
       .then((response) => response.json())
-      .then((data) => this.displayWeather(data));
+      .then((data) => this.displayWeather(data))
+      .catch(function (data) {
+        const { message } = data;
+        forSearch.value = message;
+        forSearch.style.color = "red";
+      });
   },
   displayWeather: function (data) {
     const { name } = data;
@@ -27,10 +41,13 @@ let weather = {
     document.body.style.backgroundImage =
       "url('https://source.unsplash.com/1600x900/?" + name + "')";
   },
+
   search: function () {
-    this.fetchWeather(document.querySelector(".search-bar").value);
+    this.fetchWeather(forSearch.value);
+    forSearch.value = "";
   },
 };
+
 document.querySelector(".search button").addEventListener("click", function () {
   weather.search();
 });
